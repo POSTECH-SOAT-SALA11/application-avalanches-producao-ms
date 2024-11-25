@@ -7,6 +7,7 @@ import com.avalanches.enterprisebusinessrules.entities.Produto;
 import com.avalanches.interfaceadapters.gateways.interfaces.ProdutoGatewayInterface;
 import com.avalanches.interfaceadapters.gateways.mapper.ImagemRowMapper;
 import com.avalanches.interfaceadapters.gateways.mapper.ProdutoRowMapper;
+import jakarta.inject.Inject;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -25,13 +26,18 @@ public class ProdutoGateway implements ProdutoGatewayInterface {
 
     private JdbcOperations jdbcOperations;
 
-    public ProdutoGateway(JdbcOperations jdbcOperations) {
+    private KeyHolder keyHolder;
+
+    // Modificado para permitir injeção de KeyHolder
+    public ProdutoGateway(JdbcOperations jdbcOperations, KeyHolder keyHolder) {
         this.jdbcOperations = jdbcOperations;
+        this.keyHolder = keyHolder != null ? keyHolder : new GeneratedKeyHolder(); // Caso não passe, cria o padrão
     }
+
 
     @Override
     public void cadastrar(Produto produto) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+       //KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcOperations.update(
             new PreparedStatementCreator() {
                 @Override

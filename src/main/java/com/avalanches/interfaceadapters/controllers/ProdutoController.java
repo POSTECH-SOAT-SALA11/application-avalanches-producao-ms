@@ -12,6 +12,7 @@ import com.avalanches.interfaceadapters.presenters.ProdutoPresenter;
 import com.avalanches.interfaceadapters.presenters.dtos.ProdutoDto;
 import com.avalanches.interfaceadapters.presenters.interfaces.ProdutoPresenterInterface;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ProdutoController implements ProdutoControllerInterface {
 
     @Override
     public void cadastrarProduto(Produto produto, JdbcOperations jdbcOperations) {
-        ProdutoGatewayInterface produtoGateway = new ProdutoGateway(jdbcOperations);
+        ProdutoGatewayInterface produtoGateway = new ProdutoGateway(jdbcOperations,new GeneratedKeyHolder());
         ImagemGatewayInterface imagemGateway = new ImagemGateway(jdbcOperations);
         ProdutoUseCase produtoUseCase = new ProdutoUseCase();
         produtoUseCase.cadastrarProduto(produto, produtoGateway, imagemGateway);
@@ -28,7 +29,7 @@ public class ProdutoController implements ProdutoControllerInterface {
 
     @Override
     public List<ProdutoDto> consultarProdutos(CategoriaProduto categoriaProduto, JdbcOperations jdbcOperations) {
-        ProdutoGatewayInterface produtoGateway = new ProdutoGateway(jdbcOperations);
+        ProdutoGatewayInterface produtoGateway = new ProdutoGateway(jdbcOperations, new GeneratedKeyHolder());
         ImagemGatewayInterface imagemGateway = new ImagemGateway(jdbcOperations);
         ProdutoUseCase produtoUseCase = new ProdutoUseCase();
         List<Produto> produtos = produtoUseCase.consultarProdutos(categoriaProduto, produtoGateway, imagemGateway);
@@ -38,7 +39,7 @@ public class ProdutoController implements ProdutoControllerInterface {
 
     @Override
     public void atualizarProduto(Produto produto, JdbcOperations jdbcOperations) {
-        ProdutoGatewayInterface produtoGateway = new ProdutoGateway(jdbcOperations);
+        ProdutoGatewayInterface produtoGateway = new ProdutoGateway(jdbcOperations, new GeneratedKeyHolder());
         ImagemGatewayInterface imagemGateway = new ImagemGateway(jdbcOperations);
         ProdutoUseCase produtoUseCase = new ProdutoUseCase();
         produtoUseCase.atualizarProduto(produto, produtoGateway, imagemGateway);
@@ -46,7 +47,7 @@ public class ProdutoController implements ProdutoControllerInterface {
 
     @Override
     public void excluirProduto(int id, JdbcOperations jdbcOperations) {
-        ProdutoGatewayInterface produtoGateway = new ProdutoGateway(jdbcOperations);
+        ProdutoGatewayInterface produtoGateway = new ProdutoGateway(jdbcOperations, new GeneratedKeyHolder());
         ImagemGatewayInterface  imagemGateway = new ImagemGateway(jdbcOperations);
         ProdutoUseCase produtoUseCase = new ProdutoUseCase();
         produtoUseCase.excluirProduto(id, produtoGateway, imagemGateway);
