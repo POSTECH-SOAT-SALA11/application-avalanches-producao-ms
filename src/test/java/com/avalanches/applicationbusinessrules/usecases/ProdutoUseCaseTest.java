@@ -139,14 +139,13 @@ class ProdutoUseCaseTest {
         Imagem imagemExistente = new Imagem(1, "imagem1.png", "Descrição 1", "image/png", 2048, "/caminho/imagem1.png", new byte[0]);
         List<Imagem> imagensNoBanco = Arrays.asList(imagemExistente);
 
-        when(produtoGateway.consultarProdutosPorID(10)).thenReturn(produto); // O produto existe
-        when(produtoGateway.consultarImagensPorProduto(10)).thenReturn(imagensNoBanco); // Imagens no banco
-
+        when(produtoGateway.consultarProdutosPorID(10)).thenReturn(produto);
+        when(produtoGateway.consultarImagensPorProduto(10)).thenReturn(imagensNoBanco);
         produtoUseCase.atualizarProduto(produto, produtoGateway, imagemGateway);
 
-        verify(produtoGateway).cadastrarImagemProduto(10, 0);  // Imagem 0 deve ser cadastrada
+        verify(produtoGateway).cadastrarImagemProduto(10, 0);
 
-        verify(produtoGateway).atualizar(produto);  // Produto deve ser atualizado
+        verify(produtoGateway).atualizar(produto);
 
     }
 
