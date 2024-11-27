@@ -25,17 +25,10 @@ public class ProdutoApi implements ProdutoApiInterface {
     @Inject
     private JdbcOperations jdbcOperations;
 
-    private ProdutoControllerInterface produtoController;
-
-    public ProdutoApi(JdbcOperations jdbcOperations, ProdutoControllerInterface produtoController) {
-        this.jdbcOperations = jdbcOperations;
-        this.produtoController = new ProdutoController();;
-    }
-
     @PostMapping
     @Override
     public ResponseEntity<Void> cadastrar(@Valid @RequestBody ProdutoParams produto) {
-        //ProdutoControllerInterface produtoController = new ProdutoController();
+        ProdutoControllerInterface produtoController = new ProdutoController();
         produtoController.cadastrarProduto(Convert.produtoParamsToProduto(produto), jdbcOperations);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
