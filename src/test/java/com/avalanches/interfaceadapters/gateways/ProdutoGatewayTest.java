@@ -71,9 +71,8 @@ class ProdutoGatewayTest {
         verify(jdbcOperations).update(any(), keyHolderCaptor.capture());
 
         assertNotNull(produto.id);
-        assertEquals(1, produto.id); // Verifica que o ID gerado é 1
+        assertEquals(1, produto.id);
     }
-
 
     @Test
     void DeveCadastrarImagemProduto() {
@@ -136,10 +135,8 @@ class ProdutoGatewayTest {
         int idProduto = 1;
         int idImagem = 101;
 
-        // Act: Chamar o método excluirImagemProduto
         produtoGateway.excluirImagemProduto(idProduto, idImagem);
 
-        // Assert: Verificar se o método update foi chamado corretamente com os parâmetros corretos
         verify(jdbcOperations, times(1)).update(
                 eq("DELETE FROM produto_imagem WHERE idproduto=? AND idimagem=?"),
                 eq(idProduto),
@@ -324,6 +321,5 @@ class ProdutoGatewayTest {
                 eq(Integer.class)
         );
     }
-
 }
 
