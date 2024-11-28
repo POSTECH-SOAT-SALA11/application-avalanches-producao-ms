@@ -84,7 +84,7 @@ public class ImagemGateway implements ImagemGatewayInterface {
         }
     }
 
-    private static void criarArquivo(Imagem imagem) {
+    private  void criarArquivo(Imagem imagem) {
         Path imagesFolder = Paths.get(IMAGENS);
         if (!Files.exists(imagesFolder)) {
             try {
@@ -103,7 +103,7 @@ public class ImagemGateway implements ImagemGatewayInterface {
         }
     }
 
-    private static void editarArquivo(Imagem imagem) {
+    public  void editarArquivo(Imagem imagem) {
         Path imagesFolder = Paths.get(IMAGENS);
         Path imagePath = imagesFolder.resolve(imagem.caminho);
         if (!Files.exists(imagesFolder) || !Files.exists(imagePath)) {
