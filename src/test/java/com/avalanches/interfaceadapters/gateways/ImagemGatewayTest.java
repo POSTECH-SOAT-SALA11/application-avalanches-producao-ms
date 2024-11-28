@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.KeyHolder;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -139,6 +140,23 @@ class ImagemGatewayTest {
     }
 
 
+    @Test
+    void deveExcluirImagemComErroAoDeletarArquivo() {
+
+        Imagem imagem = new Imagem(1, "imagem2.jpg", "Descrição 2", "image/jpeg", 3072, "/caminho/imagem2.jpg", new byte[0]);
+
+        MockedStatic<Files> filesMocked = mockStatic(Files.class);
+        filesMocked.when(() -> Files.deleteIfExists(any(Path.class))).thenThrow(new RuntimeException("Erro ao deletar arquivo."));
+        when(jdbcOperations.update(anyString(), anyInt())).thenReturn(1);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            imagemGateway.excluir(imagem);
+        });
+
+        verify(jdbcOperations, times(1)).update(eq("DELETE FROM imagem WHERE id=?"), eq(imagem.id));
+
+        assertEquals("Erro ao deletar arquivo.", exception.getMessage());
+    }
 
 }
 
