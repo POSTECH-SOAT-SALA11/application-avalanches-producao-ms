@@ -1,55 +1,22 @@
 package com.avalanches.interfaceadapters.gateways;
 
 import com.avalanches.enterprisebusinessrules.entities.Imagem;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.*;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-
-import java.sql.*;
-import java.util.Map;
-
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-
-import java.sql.*;
-import java.util.Map;
 
 class ImagemGatewayTest {
 
@@ -66,6 +33,11 @@ class ImagemGatewayTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() {
+
     }
 
     @Test
@@ -122,6 +94,7 @@ class ImagemGatewayTest {
 
         Path imagePath = Paths.get("imagens", "/caminho/imagem2.jpg");
         assertTrue(Files.exists(imagePath));
+        filesMocked.close();
     }
 
 
@@ -156,6 +129,8 @@ class ImagemGatewayTest {
         verify(jdbcOperations, times(1)).update(eq("DELETE FROM imagem WHERE id=?"), eq(imagem.id));
 
         assertEquals("Erro ao deletar arquivo.", exception.getMessage());
+
+        filesMocked.close();
     }
 
 }
