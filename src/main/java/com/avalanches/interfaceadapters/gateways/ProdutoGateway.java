@@ -31,7 +31,7 @@ public class ProdutoGateway implements ProdutoGatewayInterface {
     // Modificado para permitir injeção de KeyHolder
     public ProdutoGateway(JdbcOperations jdbcOperations, KeyHolder keyHolder) {
         this.jdbcOperations = jdbcOperations;
-        this.keyHolder = keyHolder != null ? keyHolder : new GeneratedKeyHolder(); // Caso não passe, cria o padrão
+        this.keyHolder = keyHolder != null ? keyHolder : new GeneratedKeyHolder();
     }
 
 

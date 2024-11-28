@@ -25,15 +25,17 @@ public class ImagemGateway implements ImagemGatewayInterface {
     public static final String IMAGENS = "imagens";
 
     private JdbcOperations jdbcOperations;
+    private  KeyHolder keyHolder;
 
-    public ImagemGateway(JdbcOperations jdbcOperations) {
+    public ImagemGateway(JdbcOperations jdbcOperations, KeyHolder keyHolder) {
         this.jdbcOperations = jdbcOperations;
+        this.keyHolder = keyHolder != null ? keyHolder : new GeneratedKeyHolder();
     }
 
     @Override
     public void cadastrar(Imagem imagem) {
         criarArquivo(imagem);
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+        //KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcOperations.update(
                 new PreparedStatementCreator() {
                     @Override
