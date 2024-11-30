@@ -24,11 +24,17 @@ public class ProdutoApi implements ProdutoApiInterface {
 
     @Inject
     private JdbcOperations jdbcOperations;
+    private ProdutoControllerInterface produtoController;
+
+    public ProdutoApi(JdbcOperations jdbcOperations, ProdutoControllerInterface produtoController) {
+        this.jdbcOperations = jdbcOperations;
+        this.produtoController = produtoController != null ? produtoController : new ProdutoController();
+    }
 
     @PostMapping
     @Override
     public ResponseEntity<Void> cadastrar(@Valid @RequestBody ProdutoParams produto) {
-        ProdutoControllerInterface produtoController = new ProdutoController();
+        //ProdutoControllerInterface produtoController = new ProdutoController();
         produtoController.cadastrarProduto(Convert.produtoParamsToProduto(produto), jdbcOperations);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -36,7 +42,7 @@ public class ProdutoApi implements ProdutoApiInterface {
     @PutMapping("/{id}")
     @Override
     public ResponseEntity<Void> atualizar(@PathVariable int id, @Valid @RequestBody ProdutoParams produto) {
-        ProdutoControllerInterface produtoController = new ProdutoController();
+        //ProdutoControllerInterface produtoController = new ProdutoController();
         Produto produtoEntity = Convert.produtoParamsToProduto(produto);
         produtoEntity.id = id;
         produtoController.atualizarProduto(produtoEntity, jdbcOperations);
@@ -46,7 +52,7 @@ public class ProdutoApi implements ProdutoApiInterface {
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Void> excluir(@PathVariable int id) {
-        ProdutoControllerInterface produtoController = new ProdutoController();
+        //ProdutoControllerInterface produtoController = new ProdutoController();
         produtoController.excluirProduto(id, jdbcOperations);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -54,7 +60,7 @@ public class ProdutoApi implements ProdutoApiInterface {
     @GetMapping("/{categoriaProduto}")
     @Override
     public ResponseEntity<List<ProdutoDto>> consultarPorCategoria(@PathVariable("categoriaProduto") CategoriaProduto categoriaProduto){
-        ProdutoControllerInterface produtoController = new ProdutoController();
+        //ProdutoControllerInterface produtoController = new ProdutoController();
         List<ProdutoDto> response = produtoController.consultarProdutos(categoriaProduto, jdbcOperations);
         return ResponseEntity.ok().body(response);
     }

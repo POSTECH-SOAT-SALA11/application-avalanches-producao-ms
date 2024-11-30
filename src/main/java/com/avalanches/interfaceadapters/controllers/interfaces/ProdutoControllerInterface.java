@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Component
 public interface ProdutoControllerInterface {
     void cadastrarProduto(Produto produto, JdbcOperations jdbcOperations);
 

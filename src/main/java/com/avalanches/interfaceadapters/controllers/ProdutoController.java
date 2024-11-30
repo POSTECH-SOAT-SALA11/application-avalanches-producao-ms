@@ -14,10 +14,12 @@ import com.avalanches.interfaceadapters.presenters.interfaces.ProdutoPresenterIn
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Component
 public class ProdutoController implements ProdutoControllerInterface {
 
     @Override
