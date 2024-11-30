@@ -8,6 +8,7 @@ import org.mockito.*;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.webjars.NotFoundException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -82,7 +83,7 @@ class ImagemGatewayTest {
     }
 
     @Test
-    void testEditarArquivoQuandoErroNaEscrita() throws IOException {
+    void testEditarArquivoQuandoErroNaEscrita()  {
         Imagem imagem = new Imagem(1, "imagem2.jpg", "Descrição 2", "image/jpeg", 3072, "/caminho/imagem2.jpg", new byte[0]);
         try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
             Path imagePath = Paths.get(IMAGENS, "arquivo.jpg");
@@ -90,9 +91,9 @@ class ImagemGatewayTest {
             mockedFiles.when(() -> Files.exists(Paths.get(IMAGENS))).thenReturn(true);
             mockedFiles.when(() -> Files.exists(imagePath)).thenReturn(true);
 
-            mockedFiles.when(() -> Files.write(imagePath, new byte[]{})).thenThrow(new IOException("Erro de escrita"));
+            mockedFiles.when(() -> Files.write(imagePath, new byte[]{})).thenThrow(new NotFoundException("Erro de escrita"));
 
-            RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            NotFoundException exception = assertThrows(NotFoundException.class, () -> {
                 imagemGateway.editarArquivo(imagem);
             });
 
