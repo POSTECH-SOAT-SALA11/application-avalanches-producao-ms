@@ -109,7 +109,6 @@ public class ImagemGateway implements ImagemGatewayInterface {
         if (!Files.exists(imagesFolder) || !Files.exists(imagePath)) {
             throw new NotFoundException("Arquivo não existe");
         }
-
         try {
             Files.write(imagePath, imagem.conteudo);
         } catch (IOException e) {
@@ -131,5 +130,4 @@ public class ImagemGateway implements ImagemGatewayInterface {
 
         return file;
     }
-
 }

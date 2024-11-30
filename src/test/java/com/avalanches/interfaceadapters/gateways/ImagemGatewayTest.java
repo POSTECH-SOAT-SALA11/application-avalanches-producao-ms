@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.avalanches.interfaceadapters.gateways.ImagemGateway.IMAGENS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -60,9 +61,6 @@ class ImagemGatewayTest {
         assertEquals(1, imagem.id);
     }
 
-
-
-
     @Test
     void deveAtualizarImagem() {
         Imagem imagem = new Imagem(1, "imagem2.jpg", "Descrição 2", "image/jpeg", 3072, "/caminho/imagem2.jpg", new byte[0]);
@@ -81,6 +79,25 @@ class ImagemGatewayTest {
                 eq(imagem.tamanho),
                 eq(imagem.id)
         );
+    }
+
+    @Test
+    void testEditarArquivoQuandoErroNaEscrita() throws IOException {
+        Imagem imagem = new Imagem(1, "imagem2.jpg", "Descrição 2", "image/jpeg", 3072, "/caminho/imagem2.jpg", new byte[0]);
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            Path imagePath = Paths.get(IMAGENS, "arquivo.jpg");
+
+            mockedFiles.when(() -> Files.exists(Paths.get(IMAGENS))).thenReturn(true);
+            mockedFiles.when(() -> Files.exists(imagePath)).thenReturn(true);
+
+            mockedFiles.when(() -> Files.write(imagePath, new byte[]{})).thenThrow(new IOException("Erro de escrita"));
+
+            RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+                imagemGateway.editarArquivo(imagem);
+            });
+
+            assertEquals("Arquivo não existe", exception.getMessage());
+        }
     }
 
     @Test
