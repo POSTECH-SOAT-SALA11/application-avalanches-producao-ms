@@ -48,28 +48,8 @@ class ImagemGatewayTest {
 
     }
 
-//    @Test
-//    void deveCadastrarImagem() {
-//        Imagem imagem = new Imagem(1, "imagem2.jpg", "Descrição 2", "image/jpeg", 3072, "/caminho/imagem2.jpg", new byte[0]);
-//
-//        Map<String, Object> generatedKeys = new HashMap<>();
-//        generatedKeys.put("id", 1);
-//        when(keyHolder.getKeys()).thenReturn(generatedKeys);
-//
-//        when(jdbcOperations.update(any(), eq(keyHolder))).thenReturn(1);
-//
-//        imagemGateway.cadastrar(imagem);
-//
-//        ArgumentCaptor<KeyHolder> keyHolderCaptor = ArgumentCaptor.forClass(KeyHolder.class);
-//        verify(jdbcOperations).update(any(), keyHolderCaptor.capture());
-//
-//        assertNotNull(imagem.id);
-//        assertEquals(1, imagem.id);
-//
-//    }
-
     @Test
-    void deveCadastrarImagem2() throws SQLException {
+    void deveCadastrarImagem() throws SQLException {
         Imagem imagem = new Imagem(1, "imagem2.jpg", "Descrição 2", "image/jpeg", 3072, "/caminho/imagem2.jpg", new byte[0]);
 
         Map<String, Object> generatedKeys = new HashMap<>();
