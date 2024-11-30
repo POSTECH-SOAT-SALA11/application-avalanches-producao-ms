@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.webjars.NotFoundException;
@@ -14,6 +15,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,20 +48,57 @@ class ImagemGatewayTest {
 
     }
 
+//    @Test
+//    void deveCadastrarImagem() {
+//        Imagem imagem = new Imagem(1, "imagem2.jpg", "Descrição 2", "image/jpeg", 3072, "/caminho/imagem2.jpg", new byte[0]);
+//
+//        Map<String, Object> generatedKeys = new HashMap<>();
+//        generatedKeys.put("id", 1);
+//        when(keyHolder.getKeys()).thenReturn(generatedKeys);
+//
+//        when(jdbcOperations.update(any(), eq(keyHolder))).thenReturn(1);
+//
+//        imagemGateway.cadastrar(imagem);
+//
+//        ArgumentCaptor<KeyHolder> keyHolderCaptor = ArgumentCaptor.forClass(KeyHolder.class);
+//        verify(jdbcOperations).update(any(), keyHolderCaptor.capture());
+//
+//        assertNotNull(imagem.id);
+//        assertEquals(1, imagem.id);
+//
+//    }
+
     @Test
-    void deveCadastrarImagem() {
+    void deveCadastrarImagem2() throws SQLException {
         Imagem imagem = new Imagem(1, "imagem2.jpg", "Descrição 2", "image/jpeg", 3072, "/caminho/imagem2.jpg", new byte[0]);
 
         Map<String, Object> generatedKeys = new HashMap<>();
         generatedKeys.put("id", 1);
         when(keyHolder.getKeys()).thenReturn(generatedKeys);
 
-        when(jdbcOperations.update(any(), eq(keyHolder))).thenReturn(1);
+        when(jdbcOperations.update(any(PreparedStatementCreator.class), eq(keyHolder))).thenReturn(1);
 
         imagemGateway.cadastrar(imagem);
 
-        ArgumentCaptor<KeyHolder> keyHolderCaptor = ArgumentCaptor.forClass(KeyHolder.class);
-        verify(jdbcOperations).update(any(), keyHolderCaptor.capture());
+        ArgumentCaptor<PreparedStatementCreator> statementCaptor = ArgumentCaptor.forClass(PreparedStatementCreator.class);
+
+        verify(jdbcOperations).update(statementCaptor.capture(), eq(keyHolder));
+
+        PreparedStatementCreator preparedStatementCreator = statementCaptor.getValue();
+
+        Connection connection = mock(Connection.class);
+        PreparedStatement ps = mock(PreparedStatement.class);
+        when(connection.prepareStatement(anyString(), eq(Statement.RETURN_GENERATED_KEYS))).thenReturn(ps);
+
+        PreparedStatement preparedStatement = preparedStatementCreator.createPreparedStatement(connection);
+
+        assertNotNull(preparedStatement);
+
+        verify(ps).setString(1, imagem.nome);
+        verify(ps).setString(2, imagem.descricao);
+        verify(ps).setString(3, imagem.tipoConteudo);
+        verify(ps).setString(4, imagem.caminho);
+        verify(ps).setInt(5, imagem.tamanho);
 
         assertNotNull(imagem.id);
         assertEquals(1, imagem.id);

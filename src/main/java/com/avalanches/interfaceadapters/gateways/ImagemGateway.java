@@ -57,6 +57,7 @@ public class ImagemGateway implements ImagemGatewayInterface {
         imagem.id = (int) keyHolder.getKeys().get("id");
     }
 
+
     @Override
     public void atualizar(Imagem imagem) {
         editarArquivo(imagem);
