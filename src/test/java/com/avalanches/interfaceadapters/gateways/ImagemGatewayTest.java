@@ -154,5 +154,35 @@ class ImagemGatewayTest {
         filesMocked.close();
     }
 
+    @Test
+    void deveLerArquivo() throws IOException {
+        String path = "imagem.jpg";
+        Path imagePath = Paths.get(IMAGENS + '/' + path);
+        byte[] expectedContent = { 1, 2, 3, 4, 5 }; // Conteúdo do arquivo esperado
+
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.readAllBytes(imagePath)).thenReturn(expectedContent);
+
+            byte[] fileContent = imagemGateway.lerArquivo(path);
+
+            assertArrayEquals(expectedContent, fileContent);
+        }
+    }
+
+    @Test
+    void deveDarErroAoLerArquivo() throws IOException {
+        String path = "imagem_inexistente.jpg";
+        Path imagePath = Paths.get(IMAGENS + '/' + path);
+
+        try (MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+            mockedFiles.when(() -> Files.readAllBytes(imagePath)).thenThrow(new IOException("Arquivo não encontrado"));
+
+            RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+                imagemGateway.lerArquivo(path);
+            });
+
+            assertEquals("Arquivo não encontrado.", exception.getMessage());
+        }
+    }
 }
 
