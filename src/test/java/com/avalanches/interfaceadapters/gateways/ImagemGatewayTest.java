@@ -79,7 +79,6 @@ class ImagemGatewayTest {
         verify(ps).setString(3, imagem.tipoConteudo);
         verify(ps).setString(4, imagem.caminho);
         verify(ps).setInt(5, imagem.tamanho);
-
         assertNotNull(imagem.id);
         assertEquals(1, imagem.id);
     }
