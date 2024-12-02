@@ -8,7 +8,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: avalanches_database
+      POSTGRES_DB: avalanches_producao_database
       POSTGRES_USER: avalanches_user
       POSTGRES_PASSWORD: avalanches_password
     volumes:

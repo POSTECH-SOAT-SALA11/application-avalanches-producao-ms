@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TesteConfig {
 
-
     @Bean
     public ProdutoGateway produtoGateway() {
         return Mockito.mock(ProdutoGateway.class);
