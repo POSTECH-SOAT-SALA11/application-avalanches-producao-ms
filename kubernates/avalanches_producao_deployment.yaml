@@ -16,7 +16,7 @@ spec:
         - name: avalanches-producao
           image: rm355416/avalanches-producao-app:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 8083
           env:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://<RDS_ENDPOINT>:5432/avalanches_producao_database
