@@ -62,7 +62,7 @@ jobs:
       
       - name: Retrieve Secrets from AWS Secrets Manager and create Kubernetes secret
         run: |
-          secret=$(aws secretsmanager get-secret-value --secret-id producao-dbcredentials --region sa-east-1 --query SecretString --output text)
+          secret=$(aws secretsmanager get-secret-value --secret-id producao-dbcredentialsv2 --region sa-east-1 --query SecretString --output text)
 
           # Parse o JSON dos segredos
           db_host=$(echo $secret | jq -r '.db_host')
@@ -72,8 +72,8 @@ jobs:
           db_user=$(echo $secret | jq -r '.db_user')
 
           # Criar o secret no Kubernetes
-          kubectl delete secret producao-dbcredentials || true  # Para evitar erro caso já exista
-          kubectl create secret generic producao-dbcredentials \
+          kubectl delete secret producao-dbcredentialsv2 || true  # Para evitar erro caso já exista
+          kubectl create secret generic producao-dbcredentialsv2 \
             --from-literal=db_host=$db_host \
             --from-literal=db_name=$db_name \
             --from-literal=db_password=$db_password \
