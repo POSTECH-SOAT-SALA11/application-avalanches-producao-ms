@@ -84,4 +84,5 @@ jobs:
         run: |
           kubectl apply -f kubernetes/producao-deployment.yaml
           kubectl apply -f kubernetes/producao-service.yaml
-          kubectl apply -f kubernetes/hpa.yaml
+          kubectl apply -f kubernetes/producao-hpa.yaml
+
