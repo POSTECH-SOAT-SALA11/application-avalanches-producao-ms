@@ -59,6 +59,26 @@ jobs:
       - name: Configure Kubernetes credentials (kubectl)
         run: |
           aws eks update-kubeconfig --region sa-east-1 --name techchallenge
+      
+      - name: Retrieve Secrets from AWS Secrets Manager and create Kubernetes secret
+        run: |
+          secret=$(aws secretsmanager get-secret-value --secret-id producao-dbcredentials --region sa-east-1 --query SecretString --output text)
+
+          # Parse o JSON dos segredos
+          db_host=$(echo $secret | jq -r '.db_host')
+          db_name=$(echo $secret | jq -r '.db_name')
+          db_password=$(echo $secret | jq -r '.db_password')
+          db_port=$(echo $secret | jq -r '.db_port')
+          db_user=$(echo $secret | jq -r '.db_user')
+
+          # Criar o secret no Kubernetes
+          kubectl delete secret pagamento-dbcredentials || true  # Para evitar erro caso já exista
+          kubectl create secret generic pagamento-dbcredentials \
+            --from-literal=db_host=$db_host \
+            --from-literal=db_name=$db_name \
+            --from-literal=db_password=$db_password \
+            --from-literal=db_port=$db_port \
+            --from-literal=db_user=$db_user 
 
       - name: Deploy Sistema Pagamento Mock to EKS
         run: |
