@@ -7,6 +7,6 @@ spec:
     app: ms-producao
   ports:
     - port: 8083
-      targetPort: 8383
+      targetPort: 8083
       protocol: TCP
   type: NodePort
