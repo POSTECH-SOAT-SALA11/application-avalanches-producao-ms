@@ -23,25 +23,25 @@ spec:
             - name: POSTGRES_HOST
               valueFrom:
                 secretKeyRef:
-                  name: producao-dbcredentialsv2
+                  name: producao-dbcredentials
                   key: db_host
             - name: POSTGRES_PORT
               valueFrom:
                 secretKeyRef:
-                  name: producao-dbcredentialsv2
+                  name: producao-dbcredentials
                   key: db_port
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: producao-dbcredentialsv2
+                  name: producao-dbcredentials
                   key: db_user
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: producao-dbcredentialsv2
+                  name: producao-dbcredentials
                   key: db_password
             - name: POSTGRES_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: producao-dbcredentialsv2
+                  name: producao-dbcredentials
                   key: db_name
