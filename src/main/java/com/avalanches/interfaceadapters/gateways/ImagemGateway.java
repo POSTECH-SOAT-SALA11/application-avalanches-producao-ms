@@ -120,7 +120,7 @@ public class ImagemGateway implements ImagemGatewayInterface {
     @Override
     public byte[] lerArquivo(String path) {
         Path imagePath = Paths.get(IMAGENS + '/' + path);
-
+        System.out.println(imagePath);
         byte[] file;
 
         try {
