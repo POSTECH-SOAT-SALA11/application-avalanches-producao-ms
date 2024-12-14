@@ -5,6 +5,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=POSTECH-SOAT-SALA11_application-avalanches-producao-ms&metric=coverage)](https://sonarcloud.io/summary/new_code?id=POSTECH-SOAT-SALA11_application-avalanches-producao-ms)
 
 # Vídeos
+- https://youtu.be/BRzWxaTsYbA (Vídeo unificado)
 - https://youtu.be/UQ2DW_Y6RvI
 - https://youtu.be/V53hE-nBjzk
 
